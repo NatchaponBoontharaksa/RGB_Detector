@@ -7,6 +7,7 @@ import androidx.core.content.FileProvider;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
     // Create image folder for RGB_Detector application
     static final String appDirectoryName = "RGB_Detector";
+    String pictureFile;
 
     private static final String TAG = "MainActivity";
 
@@ -46,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
     private String pictureFilePath;
 
     private ImageView imgview;
+
+    Uri image_uri;
 
     ArrayList<image_data> imageList = new ArrayList<>();
 
@@ -104,66 +108,30 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void openCamera() throws IOException {
+        ContentValues values = new ContentValues();
+        values.put(MediaStore.Images.Media.TITLE, "New Picture");
+        values.put(MediaStore.Images.Media.DESCRIPTION, "From the Camera");
+        image_uri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        cameraIntent.putExtra(MediaStore.EXTRA_FINISH_ON_COMPLETION, true);
-        if (cameraIntent.resolveActivity(getPackageManager()) != null){
-//            startActivityForResult(cameraIntent, CAMERA_REQ_CODE);
-            File pictureFile = null;
-            try {
-                pictureFile = getPictureFile();
-            } catch (IOException ex) {
-                Toast.makeText(this,
-                        "Photo file can't be created, please try again",
-                        Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if (pictureFile != null) {
-                Uri photoURI = FileProvider.getUriForFile(this,
-                        "com.example.fileprovider",
-                        pictureFile);
-                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                startActivityForResult(cameraIntent, CAMERA_REQ_CODE);
-            }
-        }
+        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, image_uri);
+        startActivityForResult(cameraIntent, CAMERA_REQ_CODE);
 
     }
 
     private File getPictureFile() throws IOException {
         String timeStamp = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
-        String pictureFile = "RGB_Detector_" + timeStamp;
+        pictureFile = "RGB_Detector_" + timeStamp;
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(pictureFile,  ".jpg", storageDir);
         pictureFilePath = image.getAbsolutePath();
         return image;
     }
 
-    private void addToGallery() {
-
-        FileOutputStream outputStream = null;
-        File file = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File dir = new File(file.getAbsolutePath() + appDirectoryName);
-        if (!dir.exists()) {
-            dir.mkdirs();
-        }
-
-
-//        Intent galleryIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-//        Log.d(TAG, pictureFilePath);
-//        File f = new File(pictureFilePath);
-//        Uri picUri = Uri.fromFile(f);
-//        galleryIntent.setData(picUri);
-//        this.sendBroadcast(galleryIntent);
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (requestCode == CAMERA_REQ_CODE && resultCode == Activity.RESULT_OK){
-            File imgFile = new File(pictureFilePath);
-            addToGallery();
-            if (imgFile.exists())
-            {
-                imgview.setImageURI(Uri.fromFile(imgFile));
-            }
+            Log.d(TAG, "uri: " + image_uri);
+            imgview.setImageURI(image_uri);
 //            Bundle extras = data.getExtras();
 //            Bitmap imgBitmap = (Bitmap) extras.get("data");
 //            image_data tmp = new image_data(, image_name);
