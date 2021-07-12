@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
 
     private static final int CAMERA_REQ_CODE = 42;
+    private static final int GALLERY_REQ_CODE = 44;
     private String pictureFilePath;
 
     private ImageView imgview;
@@ -137,12 +138,8 @@ public class MainActivity extends AppCompatActivity {
             imageListAdapter adapter = new imageListAdapter(this, R.layout.img_list, imageList);
             mListView.setAdapter(adapter);
             image_cnt++;
-
-//            imgview.setImageURI(image_uri);
-//            Bundle extras = data.getExtras();
-//            Bitmap imgBitmap = (Bitmap) extras.get("data");
-//            image_data tmp = new image_data(, image_name);
-//            imgview.setImageBitmap(imgBitmap);
+        } else if(requestCode == GALLERY_REQ_CODE && resultCode == Activity.RESULT_OK) {
+            
         }
 
         super.onActivityResult(requestCode, resultCode, data);
