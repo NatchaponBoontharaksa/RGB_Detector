@@ -20,6 +20,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -36,8 +37,6 @@ public class MainActivity extends AppCompatActivity {
     String cameraPermission[];
     String storagePermission[];
 
-    static Context myContext;
-
     // Create image folder for RGB_Detector application
     static final String appDirectoryName = "RGB_Detector";
     String pictureFile;
@@ -50,11 +49,12 @@ public class MainActivity extends AppCompatActivity {
     private ImageView imgview;
 
     Uri image_uri;
+    ListView mListView;
 
     ArrayList<image_data> imageList = new ArrayList<>();
 
-    image_data[] tmp_image_data;
-    private static int image_name = 1;
+    image_data tmp_image_data;
+    private int image_cnt = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
         Button camera_btn = findViewById(R.id.camera_btn);
         Button gallery_btn = findViewById(R.id.gallery_btn);
         imgview = findViewById(R.id.imageShow);
+        mListView = findViewById(R.id.listView);
 
 //        checkDir(myContext);
 
@@ -131,7 +132,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (requestCode == CAMERA_REQ_CODE && resultCode == Activity.RESULT_OK){
             Log.d(TAG, "uri: " + image_uri);
-            imgview.setImageURI(image_uri);
+            tmp_image_data = new image_data(image_uri.toString(), (image_cnt+1) + "");
+            imageList.add(tmp_image_data);
+            imageListAdapter adapter = new imageListAdapter(this, R.layout.img_list, imageList);
+            mListView.setAdapter(adapter);
+            image_cnt++;
+
+//            imgview.setImageURI(image_uri);
 //            Bundle extras = data.getExtras();
 //            Bitmap imgBitmap = (Bitmap) extras.get("data");
 //            image_data tmp = new image_data(, image_name);

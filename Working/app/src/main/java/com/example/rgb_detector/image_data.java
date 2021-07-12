@@ -1,6 +1,9 @@
 package com.example.rgb_detector;
 
+import android.net.Uri;
+
 import java.io.File;
+import java.net.URI;
 
 public class image_data {
 

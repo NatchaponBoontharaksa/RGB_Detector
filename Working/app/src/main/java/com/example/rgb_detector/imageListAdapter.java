@@ -1,6 +1,7 @@
 package com.example.rgb_detector;
 
 import android.content.Context;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,7 +50,7 @@ public class imageListAdapter extends ArrayAdapter<image_data> {
 
         //get the persons information
         String imgName = getItem(position).getFileName();
-        String imgUrl = getItem(position).getImgURL();
+        String imgUri = getItem(position).getImgURL();
 
         //create the view result for showing the animation
         final View result;
@@ -63,7 +64,7 @@ public class imageListAdapter extends ArrayAdapter<image_data> {
             convertView = inflater.inflate(mResource, parent, false);
             holder= new ViewHolder();
             holder.imageName = (TextView) convertView.findViewById(R.id.imgName);
-            holder.image = (ImageView) convertView.findViewById(R.id.image);
+            holder.image = (ImageView) convertView.findViewById(R.id.imageShow);
 
             result = convertView;
 
@@ -95,7 +96,7 @@ public class imageListAdapter extends ArrayAdapter<image_data> {
                 .showImageOnLoading(defaultImage).build();
 
         //download and display image from url
-        imageLoader.displayImage(imgUrl, holder.image, options);
+        imageLoader.displayImage(imgUri, holder.image, options);
 
         return convertView;
     }
