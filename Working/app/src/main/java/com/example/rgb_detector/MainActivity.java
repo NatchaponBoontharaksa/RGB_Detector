@@ -63,7 +63,6 @@ public class MainActivity extends AppCompatActivity {
         cameraPermission = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
         storagePermission = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
         setContentView(R.layout.activity_main);
-//        ListView mListView = findViewById(R.id.listView);
         Button camera_btn = findViewById(R.id.camera_btn);
         Button gallery_btn = findViewById(R.id.gallery_btn);
         imgview = findViewById(R.id.imageShow);
@@ -85,6 +84,13 @@ public class MainActivity extends AppCompatActivity {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+            }
+        });
+
+        gallery_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pickFromGallery();
             }
         });
     }
@@ -120,13 +126,18 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private File getPictureFile() throws IOException {
-        String timeStamp = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
-        pictureFile = "RGB_Detector_" + timeStamp;
-        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(pictureFile,  ".jpg", storageDir);
-        pictureFilePath = image.getAbsolutePath();
-        return image;
+//    private File getPictureFile() throws IOException {
+//        String timeStamp = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+//        pictureFile = "RGB_Detector_" + timeStamp;
+//        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+//        File image = File.createTempFile(pictureFile,  ".jpg", storageDir);
+//        pictureFilePath = image.getAbsolutePath();
+//        return image;
+//    }
+
+    private void pickFromGallery() {
+        Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+        startActivityForResult(gallery, GALLERY_REQ_CODE);
     }
 
     @Override
@@ -139,7 +150,12 @@ public class MainActivity extends AppCompatActivity {
             mListView.setAdapter(adapter);
             image_cnt++;
         } else if(requestCode == GALLERY_REQ_CODE && resultCode == Activity.RESULT_OK) {
-            
+            image_uri = data.getData();
+            tmp_image_data = new image_data(image_uri.toString(), (image_cnt+1) + "");
+            imageList.add(tmp_image_data);
+            imageListAdapter adapter = new imageListAdapter(this, R.layout.img_list, imageList);
+            mListView.setAdapter(adapter);
+            image_cnt++;
         }
 
         super.onActivityResult(requestCode, resultCode, data);
