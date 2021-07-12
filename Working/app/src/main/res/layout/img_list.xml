@@ -13,6 +13,7 @@
 
         <ImageView
             android:id="@+id/imageShow"
+            android:padding="0dp"
             android:layout_width="347dp"
             android:layout_height="107dp"
             android:layout_weight="50" />

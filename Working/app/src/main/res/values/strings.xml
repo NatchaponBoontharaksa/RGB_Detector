@@ -2,4 +2,5 @@
     <string name="app_name">RGB_Detector</string>
     <string name="camera_str">CAMERA</string>
     <string name="gallery_str">GALLERY</string>
+    <string name="crop_str">CROP</string>
 </resources>
