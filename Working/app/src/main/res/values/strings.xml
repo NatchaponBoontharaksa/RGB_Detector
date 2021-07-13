@@ -3,4 +3,5 @@
     <string name="camera_str">CAMERA</string>
     <string name="gallery_str">GALLERY</string>
     <string name="crop_str">CROP</string>
+    <string name="analyze_str">ANALYZE</string>
 </resources>
