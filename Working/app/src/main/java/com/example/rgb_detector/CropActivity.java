@@ -36,12 +36,12 @@ public class CropActivity extends AppCompatActivity {
 
         target_img.setImageURI(imageUrl);
 
-        crop_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
+//        crop_btn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//            }
+//        });
 
     }
 }
