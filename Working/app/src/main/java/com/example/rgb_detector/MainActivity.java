@@ -18,6 +18,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -91,6 +92,16 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 pickFromGallery();
+            }
+        });
+
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                image_data target_img = new image_data(imageList.get(position).getImgURL(), imageList.get(position).getFileName());
+                Intent intent = new Intent(MainActivity.this, CropActivity.class);
+                intent.putExtra("Image_Target", target_img);
+                startActivity(intent);
             }
         });
     }

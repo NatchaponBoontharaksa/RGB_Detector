@@ -1,11 +1,11 @@
 package com.example.rgb_detector;
-
+import java.io.Serializable;
 import android.net.Uri;
 
 import java.io.File;
 import java.net.URI;
 
-public class image_data {
+public class image_data implements Serializable {
 
     private String imgURL;
     private String FileName;
