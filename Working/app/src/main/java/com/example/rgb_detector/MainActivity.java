@@ -148,6 +148,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void pickFromGallery() {
         Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+        gallery.setType("image/*");
         startActivityForResult(gallery, GALLERY_REQ_CODE);
     }
 

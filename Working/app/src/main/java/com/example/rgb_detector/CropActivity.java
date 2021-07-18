@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.theartofdev.edmodo.cropper.CropImage;
+
 public class CropActivity extends AppCompatActivity {
 
     private static final String TAG = "CropActivity";
@@ -37,12 +39,13 @@ public class CropActivity extends AppCompatActivity {
 
         target_img.setImageURI(imageUrl);
 
-//        crop_btn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//            }
-//        });
+        crop_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CropImage.activity(imageUrl)
+                        .start(CropActivity.this);
+            }
+        });
 
     }
 }
