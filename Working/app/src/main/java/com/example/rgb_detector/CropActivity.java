@@ -17,6 +17,7 @@ public class CropActivity extends AppCompatActivity {
     Button crop_btn;
     Button analyze_btn;
     ImageView target_img;
+    Uri imageUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +25,7 @@ public class CropActivity extends AppCompatActivity {
         setContentView(R.layout.activity_crop);
 
         Intent intent = getIntent();
-        Uri imageUrl;
+
 
         image_data img = (image_data)intent.getSerializableExtra("Image_Target") ;
 
